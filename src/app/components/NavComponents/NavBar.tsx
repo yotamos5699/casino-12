@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
-import { options } from "../api/auth/[...nextauth]/options";
-import ToggleTheme from "../ToggleTheme";
-import { AppTheme } from "../Style";
+import { options } from "../../api/auth/[...nextauth]/options";
+import ToggleTheme from "../../ToggleTheme";
+import { AppTheme } from "../../Style";
 
 // import { ReactComponent as Logo } from './logotype.svg'
 export default async function Navbar() {

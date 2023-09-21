@@ -2,7 +2,7 @@
 import "./globals.css";
 
 import AuthProvider from "./context/AuthProvider";
-import Navbar from "./components/NavBar";
+import Navbar from "./components/NavComponents/NavBar";
 
 export const metadata = {
   title: "NextAuth Tutorial",
