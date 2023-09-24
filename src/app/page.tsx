@@ -1,21 +1,29 @@
 import { options } from "./api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
-
 import Link from "next/link";
-import MainUi from "./components/MainUi";
 
-import { getPermissionsList } from "./helpers/fetch";
 import { AppTheme } from "./Style";
 
-const allowedViewers = ["eliad@fusionary.co.il", "m.lhafakot@gmail.com"];
+import { redirect } from "next/navigation";
+import { getUserRelatedData } from "./utils/fetchHelper";
+const DEV = true;
+export const BASE_URL = DEV ? "http://localhost:3000/" : "https://casino-12.vercel.app/";
+
 export default async function Home() {
   const session = await getServerSession(options);
-  const permittedUsersEmaailList = await (await getPermissionsList()).map((user) => user.email);
+  const Users = await getUserRelatedData({ session, token: crypto.randomUUID(), rout: "login" });
+  if (!Users) return <h1>"וואי וואי בלגן"</h1>;
+
+  const permittedUsersEmaailList = Users.map((user) => user.email);
+  const sessionAllowed = permittedUsersEmaailList.includes(session?.user?.email ?? "");
+  if (sessionAllowed) {
+    redirect("/screens/HomeScreen");
+  }
   return (
     <>
       {!session ? (
-        <main className={AppTheme.main}>
-          <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+        <main>
+          <div className="z-10 max-w-5xl   items-center justify-between font-mono text-sm lg:flex">
             <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
               Get started with your acount&nbsp;
               <code className="font-mono font-bold">casino</code>
@@ -47,8 +55,6 @@ export default async function Home() {
             </Link>
           </div>
         </main>
-      ) : permittedUsersEmaailList.includes(session?.user?.email ?? "") ? (
-        <MainUi user={session.user} />
       ) : (
         <h2>אסור כפרה</h2>
       )}

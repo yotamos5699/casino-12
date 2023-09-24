@@ -7,9 +7,14 @@
     @apply relative ml-10 text-white  font-bold tracking-[1px] hover:text-sky-700;
   }
   .Nav::after {
-    @apply content-[''] bg-sky-700 h-[3px]  w-[0%] right-0 -bottom-[5px] rounded-xl absolute duration-300;
+    @apply content-[''] bg-yellow-700 h-[3px]  w-[0%] left-0 -bottom-[5px] rounded-xl absolute duration-300;
   }
   .Nav:hover::after {
     @apply w-[100%];
+  }
+}
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
