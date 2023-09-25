@@ -34,6 +34,7 @@ const DynamicComponentSelector = ({ type, Card }: DynamicComponentSelectorProps)
 
 function DynamicFilesComponents({ type, CardsData, className, ...props }: DynamicFileComponentType & React.HTMLAttributes<HTMLElement>) {
   if (!CardsData) return <h1>error on {type}</h1>;
+
   console.log({ type });
   return (
     <div className={className} {...props}>

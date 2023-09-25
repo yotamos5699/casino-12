@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 const MainScreenValues = [{ title: "top support", values: ["24/7"] }];
+
 export const InitialMainStats = [
   ...MainScreenValues,
   { title: "average payout speed", values: [24, 18] },
@@ -7,7 +9,7 @@ export const InitialMainStats = [
   { title: "Bounty bonuses accrued", values: [120948] },
 ];
 function useSocketData() {
-  const [mainScreenStats, setMainScreenStats] = useState<any>([
+  const [mainScreenStats, setMainScreenStats] = useState<{ title: string; values: any[] }[]>([
     ...MainScreenValues,
     { title: "average payout speed", values: [24, 18] },
     { title: "popular games in the catalog", values: [8798] },
@@ -23,7 +25,7 @@ function useSocketData() {
       ]);
     }, 5000);
   }, []);
-  return mainScreenStats;
+  return { mainScreenStats, setMainScreenStats };
 }
 
 export default useSocketData;
