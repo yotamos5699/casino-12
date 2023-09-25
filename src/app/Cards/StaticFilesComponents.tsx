@@ -2,18 +2,30 @@ import React from "react";
 import { FileNamesReturnType } from "../screens/screenFetcher";
 import LobbyComponent from "./server/LobbyComponent";
 
-type StataticFileComponentType = React.HTMLAttributes<HTMLElement> & { fileNames: FileNamesReturnType } & (
-    | { folder: "pay-systems" }
-    | { folder: "lobby" }
-    | { folder: "loyalty" }
+import BonuseCard from "./server/BonuseCard";
+import { BonusCard_ } from "../screens/StaticScreensContent";
+
+type StataticFileComponentType = React.HTMLAttributes<HTMLElement> & {} & (
+    | { folder: "pay-systems"; fileNames: FileNamesReturnType }
+    | { folder: "lobby"; fileNames: FileNamesReturnType }
+    | { folder: "loyalty"; fileNames: FileNamesReturnType }
+    | { folder: "bonuses"; Cards: BonusCard_[] }
   );
 
-function StataticFilesComponents({ folder, fileNames, ...props }: StataticFileComponentType) {
-  if (!fileNames?.status || !Array.isArray(fileNames.data)) return <h1>error on {folder}</h1>;
+function StataticFilesComponents({ ...props }: StataticFileComponentType) {
+  if (props.folder === "bonuses") {
+    return (
+      <div {...props}>
+        {props.Cards.map((card) => (
+          <StaticComponentSelector key={card.id} file={card} type={props.folder} />
+        ))}
+      </div>
+    );
+  } else if (!props.fileNames?.status || !Array.isArray(props.fileNames.data)) return <h1>error on {props.folder}</h1>;
   return (
     <div {...props}>
-      {fileNames.data.map((file: string) => (
-        <StaticComponentSelector key={folder + file} file={file} type={folder} />
+      {props.fileNames.data.map((file: string) => (
+        <StaticComponentSelector key={props.folder + file} file={file} type={props.folder} />
       ))}
     </div>
   );
@@ -21,7 +33,10 @@ function StataticFilesComponents({ folder, fileNames, ...props }: StataticFileCo
 
 export default StataticFilesComponents;
 
-const StaticComponentSelector = ({ type, file }: { type: "pay-systems" | "lobby" | "loyalty"; file: string }) => {
+const StaticComponentSelector = ({
+  type,
+  file,
+}: {} & ({ type: "pay-systems" | "lobby" | "loyalty"; file: string } | { type: "bonuses"; file: BonusCard_ })) => {
   switch (type) {
     case "lobby": {
       return <LobbyComponent fileName={file} />;
@@ -33,6 +48,9 @@ const StaticComponentSelector = ({ type, file }: { type: "pay-systems" | "lobby"
     }
     case "pay-systems": {
       return <img width={60} src={`assets/images/pay-systems/${file}`} />;
+    }
+    case "bonuses": {
+      return <BonuseCard card={file} />;
     }
   }
 };

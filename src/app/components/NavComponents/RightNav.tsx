@@ -46,7 +46,7 @@ function RightSideNav({ ...props }: React.HTMLAttributes<HTMLElement>) {
       {items && (
         <>
           <MultyCard props={items[0]} isFixed={true} />
-          <div className={` gap-2  overflow-auto scrollbar-hide flex overscroll-none  flex-col w ${AppStyle_.bg.b}`}>
+          <div className={` gap-2  overflow-auto scrollbar-hide scroll-smooth flex overscroll-none  flex-col w ${AppStyle_.bg.b}`}>
             {items.map((item, i) => i !== 0 && <MultyCard props={item} isFixed={false} />)}
           </div>
         </>

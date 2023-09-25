@@ -17,7 +17,7 @@ export default async function Home() {
   const permittedUsersEmaailList = Users.map((user) => user.email);
   const sessionAllowed = permittedUsersEmaailList.includes(session?.user?.email ?? "");
   if (sessionAllowed) {
-    redirect("/screens/HomeScreen");
+    redirect("/screens/Home");
   }
   return (
     <>
